@@ -61,7 +61,7 @@ class TCPServer:
         if message_size != 3:
             return False
 
-        end_stream_flag = "ACK"
+        end_stream_flag = "END"
         message_str = message.decode("utf-8")
         return message_str == end_stream_flag
 

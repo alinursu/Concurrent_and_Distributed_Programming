@@ -55,16 +55,20 @@ class UDPServer:
                 message = int.from_bytes(message, "big")
                 print(f"Bytes are equal to value of {message}")
                 number_of_bytes = message
-
-                if self.is_end_stream_flag(message):
-                    break
             else:
                 print("Message received represents part of image.")
                 number_of_bytes = -1
 
-    def is_end_stream_flag(self, value: int) -> bool:
-        end_stream_flag = 0
-        return value == end_stream_flag
+                if self.is_end_stream_flag(number_of_bytes, message):
+                    break
+
+    def is_end_stream_flag(self, message_size: int, message) -> bool:
+        if message_size != 3:
+            return False
+
+        end_stream_flag = "END"
+        message_str = message.decode("utf-8")
+        return message_str == end_stream_flag
 
     def print_metrics(self):
         print("=======================================")

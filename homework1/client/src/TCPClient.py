@@ -64,8 +64,10 @@ class TCPClient:
         self.end_time = datetime.datetime.now()
 
     def send_end_stream_flag(self):
-        end_stream_flag = 0
-        self.send_message(end_stream_flag.to_bytes(self.int_msg_dimension, "big"))
+        end_stream_flag = "END"
+        end_stream_size = 3
+        self.send_message(end_stream_size.to_bytes(self.int_msg_dimension, "big"))
+        self.send_message(end_stream_flag.encode("utf-8"))
 
     def print_metrics(self):
         print("=======================================")
