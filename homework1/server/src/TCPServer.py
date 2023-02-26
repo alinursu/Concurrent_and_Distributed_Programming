@@ -51,15 +51,19 @@ class TCPServer:
                 bytearray_size = int.from_bytes(bytearray_size, "big")
                 print(f"Bytes are equal to value of {bytearray_size}")
 
-                if self.is_end_stream_flag(bytearray_size):
+                print(f"Reading {bytearray_size} bytes, the image.")
+                message = self.read_message(conn, bytearray_size) # Read image as bytearray
+
+                if self.is_end_stream_flag(bytearray_size, message):
                     break
 
-                print(f"Reading {bytearray_size} bytes, the image.")
-                self.read_message(conn, bytearray_size) # Read image as bytearray
+    def is_end_stream_flag(self, message_size: int, message) -> bool:
+        if message_size != 3:
+            return False
 
-    def is_end_stream_flag(self, value: int) -> bool:
-        end_stream_flag = 0
-        return value == end_stream_flag
+        end_stream_flag = "ACK"
+        message_str = message.decode("utf-8")
+        return message_str == end_stream_flag
 
     def print_metrics(self):
         print("=======================================")
