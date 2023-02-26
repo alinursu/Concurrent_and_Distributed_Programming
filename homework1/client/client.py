@@ -10,7 +10,7 @@ def main():
     print("This is the client.")
 
     # Configuration
-    server_host = "127.0.0.1"
+    server_host = "3.65.197.254"
     server_port = 65432
 
     # Console input
