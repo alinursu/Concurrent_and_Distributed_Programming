@@ -11,7 +11,7 @@ class TCPServer:
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.bind((host, port))
         self.socket.listen()
-        self.int_msg_dimension = 32
+        self.int_msg_dimension = 2
 
         # Metrics
         self.protocol = "TCP"
