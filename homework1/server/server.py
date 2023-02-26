@@ -7,7 +7,7 @@ def main():
     print("This is the server.")
 
     # Configuration
-    host = "3.65.197.254"
+    host = "172.31.27.1"
     port = 65432
 
     # Console input
