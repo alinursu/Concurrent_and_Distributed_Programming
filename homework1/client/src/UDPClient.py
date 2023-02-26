@@ -60,7 +60,7 @@ class UDPClient:
         self.end_time = datetime.datetime.now()
 
     def send_end_stream_flag(self):
-        end_stream_flag = 1
+        end_stream_flag = 0
         self.send_message(end_stream_flag.to_bytes(self.int_msg_dimension, "big"))
 
     def print_metrics(self):

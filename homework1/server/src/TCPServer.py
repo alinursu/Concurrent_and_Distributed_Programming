@@ -32,7 +32,7 @@ class TCPServer:
     def send_acknowledge(self, conn):
         print("Sending acknowledge...")
 
-        ack_flag = 2
+        ack_flag = 1
         # time.sleep(10)
         conn.send(ack_flag.to_bytes(self.int_msg_dimension, "big"))
         time.sleep(0.000001)
@@ -58,7 +58,7 @@ class TCPServer:
                 self.read_message(conn, bytearray_size) # Read image as bytearray
 
     def is_end_stream_flag(self, value: int) -> bool:
-        end_stream_flag = 1
+        end_stream_flag = 0
         return value == end_stream_flag
 
     def print_metrics(self):

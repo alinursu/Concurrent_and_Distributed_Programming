@@ -35,7 +35,7 @@ class UDPServer:
     def send_acknowledge(self, address):
         print("Sending acknowledge...")
 
-        ack_flag = 2
+        ack_flag = 1
         # time.sleep(10)
         self.socket.sendto(ack_flag.to_bytes(self.int_msg_dimension, "big"), address)
         time.sleep(0.000001)
@@ -63,7 +63,7 @@ class UDPServer:
                 number_of_bytes = -1
 
     def is_end_stream_flag(self, value: int) -> bool:
-        end_stream_flag = 1
+        end_stream_flag = 0
         return value == end_stream_flag
 
     def print_metrics(self):
