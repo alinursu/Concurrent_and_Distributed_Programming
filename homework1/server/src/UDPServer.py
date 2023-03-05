@@ -56,11 +56,11 @@ class UDPServer:
                 print(f"Bytes are equal to value of {message}")
                 number_of_bytes = message
             else:
-                print("Message received represents part of image.")
-                number_of_bytes = -1
-
                 if self.is_end_stream_flag(number_of_bytes, message):
                     break
+
+                print("Message received represents part of image.")
+                number_of_bytes = -1
 
     def is_end_stream_flag(self, message_size: int, message) -> bool:
         if message_size != 3:
@@ -68,6 +68,7 @@ class UDPServer:
 
         end_stream_flag = "END"
         message_str = message.decode("utf-8")
+        print(f"END MESSAGE: {message_str}")
         return message_str == end_stream_flag
 
     def print_metrics(self):
