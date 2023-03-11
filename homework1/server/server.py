@@ -19,7 +19,7 @@ def main():
     server = TCPServer(host, port, communication_mode) if communication_type == "TCP" \
         else UDPServer(host, port, communication_mode)
 
-    # Wait and communicate with client
+    # Wait for and communicate with client
     server.communicate_with_client()
 
     # Print metrics

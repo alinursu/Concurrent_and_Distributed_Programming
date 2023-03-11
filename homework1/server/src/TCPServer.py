@@ -30,12 +30,15 @@ class TCPServer:
         return message
 
     def send_acknowledge(self, conn):
-        print("Sending acknowledge...")
+        # print("Sending acknowledge...")
 
         ack_flag = 1
         # time.sleep(10)
-        conn.send(ack_flag.to_bytes(self.int_msg_dimension, "big"))
-        time.sleep(0.000001)
+        try:
+            conn.send(ack_flag.to_bytes(self.int_msg_dimension, "big"))
+            time.sleep(0.000001)
+        except:
+            pass
 
     def communicate_with_client(self):
         print("Waiting for client...")
@@ -46,13 +49,13 @@ class TCPServer:
 
             while True:
                 bytearray_size = self.read_message(conn, self.int_msg_dimension)
-                print(f"Received bytes: {bytearray_size}")
+                # print(f"Received bytes: {bytearray_size}")
 
                 bytearray_size = int.from_bytes(bytearray_size, "big")
-                print(f"Bytes are equal to value of {bytearray_size}")
+                # print(f"Bytes are equal to value of {bytearray_size}")
 
-                print(f"Reading {bytearray_size} bytes, the image.")
-                message = self.read_message(conn, bytearray_size) # Read image as bytearray
+                # print(f"Reading {bytearray_size} bytes, the image.")
+                message = self.read_message(conn, bytearray_size)  # Read image as bytearray
 
                 if self.is_end_stream_flag(bytearray_size, message):
                     break
@@ -62,8 +65,11 @@ class TCPServer:
             return False
 
         end_stream_flag = "END"
-        message_str = message.decode("utf-8")
-        return message_str == end_stream_flag
+        try:
+            message_str = message.decode("utf-8")
+            return message_str == end_stream_flag
+        except:
+            return False
 
     def print_metrics(self):
         print("=======================================")

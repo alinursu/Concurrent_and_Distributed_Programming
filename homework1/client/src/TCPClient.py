@@ -23,7 +23,7 @@ class TCPClient:
         self.end_time = 0
 
     def send_message(self, bytes):
-        print("Sending byte message to server...")
+        # print("Sending byte message to server...")
         self.socket.send(bytes)
         time.sleep(0.000001)
 
@@ -34,7 +34,7 @@ class TCPClient:
             self.await_acknowledge()
 
     def await_acknowledge(self):
-        print("Awaiting acknowledge...")
+        # print("Awaiting acknowledge...")
         self.socket.recv(self.int_msg_dimension)
 
     def communicate_with_server(self, images: list[dict]):
@@ -48,11 +48,12 @@ class TCPClient:
             image_as_bytes: bytearray = read_image_as_bytearray(image['path'])
             bytearray_size = len(image_as_bytes)
 
-            print(f"Image as bytearray has a size of {bytearray_size} bytes")
+            # print(f"Image as bytearray has a size of {bytearray_size} bytes")
 
-            for i in range(0, math.ceil(bytearray_size / 65535)):
-                start_index = i * 65535
-                stop_index = min(bytearray_size, (i+1) * 65535)
+            message_size = 4096
+            for i in range(0, math.ceil(bytearray_size / message_size)):
+                start_index = i * message_size
+                stop_index = min(bytearray_size, (i+1) * message_size)
 
                 partition_size: int = stop_index - start_index
                 self.send_message(partition_size.to_bytes(self.int_msg_dimension, "big"))

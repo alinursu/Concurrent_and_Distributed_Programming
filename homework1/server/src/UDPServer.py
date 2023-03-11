@@ -33,7 +33,7 @@ class UDPServer:
         return message, address
 
     def send_acknowledge(self, address):
-        print("Sending acknowledge...")
+        # print("Sending acknowledge...")
 
         ack_flag = 1
         # time.sleep(10)
@@ -47,19 +47,19 @@ class UDPServer:
             print("Waiting for client...")
 
             message, address = self.read_message(number_of_bytes)
-            print(f"Received message from {address}")
+            # print(f"Received message from {address}")
 
             if len(message) == self.int_msg_dimension:
-                print("Message received represents number of bytes.")
-                print(f"Bytes received: {message}")
+                # print("Message received represents number of bytes.")
+                # print(f"Bytes received: {message}")
                 message = int.from_bytes(message, "big")
-                print(f"Bytes are equal to value of {message}")
+                # print(f"Bytes are equal to value of {message}")
                 number_of_bytes = message
             else:
                 if self.is_end_stream_flag(number_of_bytes, message):
                     break
 
-                print("Message received represents part of image.")
+                # print("Message received represents part of image.")
                 number_of_bytes = -1
 
     def is_end_stream_flag(self, message_size: int, message) -> bool:
@@ -68,7 +68,7 @@ class UDPServer:
 
         end_stream_flag = "END"
         message_str = message.decode("utf-8")
-        print(f"END MESSAGE: {message_str}")
+        # print(f"END MESSAGE: {message_str}")
         return message_str == end_stream_flag
 
     def print_metrics(self):
