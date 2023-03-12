@@ -20,7 +20,10 @@ def main():
         else UDPServer(host, port, communication_mode)
 
     # Wait for and communicate with client
-    server.communicate_with_client()
+    try:
+        server.communicate_with_client()
+    except Exception as e:
+        print(e)
 
     # Print metrics
     server.print_metrics()

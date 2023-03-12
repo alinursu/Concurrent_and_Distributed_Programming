@@ -37,7 +37,7 @@ class TCPClient:
         # print("Awaiting acknowledge...")
         self.socket.recv(self.int_msg_dimension)
 
-    def communicate_with_server(self, images: list[dict]):
+    def communicate_with_server(self, images: list):
         print("Connecting to server...")
         self.socket.connect((self.host, self.port))
         print("Connected!")

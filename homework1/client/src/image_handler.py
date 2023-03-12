@@ -1,7 +1,7 @@
 import os
 
 
-def discover_images(start_path=".") -> list[dict]:
+def discover_images(start_path=".") -> list:
     images = []
 
     for dirpath, dirnames, filenames in os.walk(start_path):

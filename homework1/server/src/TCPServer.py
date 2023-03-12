@@ -17,6 +17,7 @@ class TCPServer:
         self.protocol = "TCP"
         self.number_of_messages_read = 0
         self.number_of_bytes_read = 0
+        self.zero_bytes_messages_number = 0
 
     def read_message(self, conn, number_of_bytes: int):
         message = conn.recv(number_of_bytes)
@@ -54,6 +55,14 @@ class TCPServer:
                 bytearray_size = int.from_bytes(bytearray_size, "big")
                 # print(f"Bytes are equal to value of {bytearray_size}")
 
+                if bytearray_size == 0:
+                    # print("Received 0 bytes")
+                    self.zero_bytes_messages_number += 1
+
+                    if self.zero_bytes_messages_number == 1000:
+                        print("Received too many 0 bytes messages")
+                        break
+
                 # print(f"Reading {bytearray_size} bytes, the image.")
                 message = self.read_message(conn, bytearray_size)  # Read image as bytearray
 
@@ -69,7 +78,8 @@ class TCPServer:
             message_str = message.decode("utf-8")
             return message_str == end_stream_flag
         except:
-            return False
+            print("Exception thrown while checking end stream flag")
+            return True
 
     def print_metrics(self):
         print("=======================================")

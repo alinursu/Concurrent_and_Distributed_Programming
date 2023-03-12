@@ -16,6 +16,7 @@ class UDPServer:
         self.protocol = "UDP"
         self.number_of_messages_read = 0
         self.number_of_bytes_read = 0
+        self.zero_bytes_messages_number = 0
 
     def read_message(self, number_of_bytes: int):
         size = number_of_bytes
@@ -37,15 +38,17 @@ class UDPServer:
 
         ack_flag = 1
         # time.sleep(10)
-        self.socket.sendto(ack_flag.to_bytes(self.int_msg_dimension, "big"), address)
-        time.sleep(0.000001)
+        try:
+            self.socket.sendto(ack_flag.to_bytes(self.int_msg_dimension, "big"), address)
+            time.sleep(0.000001)
+        except:
+            pass
 
     def communicate_with_client(self):
+        print("Waiting for client...")
         number_of_bytes = -1
 
         while True:
-            print("Waiting for client...")
-
             message, address = self.read_message(number_of_bytes)
             # print(f"Received message from {address}")
 
@@ -55,6 +58,14 @@ class UDPServer:
                 message = int.from_bytes(message, "big")
                 # print(f"Bytes are equal to value of {message}")
                 number_of_bytes = message
+
+                if number_of_bytes == 0:
+                    self.zero_bytes_messages_number += 1
+
+                    if self.zero_bytes_messages_number == 1000:
+                        print("Received too many 0 bytes messages")
+                        break
+
             else:
                 if self.is_end_stream_flag(number_of_bytes, message):
                     break
@@ -67,9 +78,12 @@ class UDPServer:
             return False
 
         end_stream_flag = "END"
-        message_str = message.decode("utf-8")
-        # print(f"END MESSAGE: {message_str}")
-        return message_str == end_stream_flag
+        try:
+            message_str = message.decode("utf-8")
+            return message_str == end_stream_flag
+        except:
+            print("Exception thrown while checking end stream flag")
+            return True
 
     def print_metrics(self):
         print("=======================================")

@@ -37,7 +37,8 @@ class UDPClient:
         # print("Awaiting acknowledge...")
         self.socket.recvfrom(self.int_msg_dimension)
 
-    def communicate_with_server(self, images: list[dict]):
+    def communicate_with_server(self, images: list):
+        print("Start sending bytes to server...")
         self.start_time = datetime.datetime.now()
 
         for image in images:
